@@ -1,6 +1,7 @@
 <div th:replace="executed-command :: executed-command (line=${line})">
 
 </div>
+
 <div id="full-screen" hx-swap-oob="true" onkeyup="finishFullScreen(event)">
     <div>
         <div>
@@ -15,20 +16,9 @@ __      __  _____   _____    ______    ____
         </div>
     </div>
 
-    <div>
-        <div>
-            <span class="line-location">[/] ></span>
-            <span class="line-command">cd tutorial</span>
-        </div>
-    </div>
+    <div th:each="vline : ${lines}">
+        <div th:replace="executed-command :: executed-command (line=${vline})">
 
-    <div>
-        <div>
-            <span class="line-location">[tutorial] ></span>
-            <span class="line-command">execute npc.sh</span>
-        </div>
-        <div>
-            <span class="line-response">I am an npc</span>
         </div>
     </div>
 
