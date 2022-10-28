@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -50,6 +51,7 @@ public class HomeController {
             Line line3 = new Line();
             line3.response = "I am an npc";
             model.addAttribute("lines", List.of(line1, line2, line3));
+            model.addAttribute("uniqueId", new Date().getTime());
 
             return "full-screen-video";
         }

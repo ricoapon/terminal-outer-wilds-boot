@@ -16,7 +16,25 @@ __      __  _____   _____    ______    ____
         </div>
     </div>
 
-    <div th:each="vline : ${lines}">
+    <!-- Implement the script with a some unique identifier, so that when we add new views they will never intersect.
+         This means we have to make the JavaScript function name unique, as well as the IDs of the elements. -->
+    <script>
+        showEveryFewSeconds[[${uniqueId}]](0)
+
+        // Ignore the compiler errors. The value is correct after Thymeleaf injects the value.
+        async function showEveryFewSeconds[[${uniqueId}]](counter) {
+            const videoElement = document.getElementById('video-' + counter + '-[[${uniqueId}]]')
+            if (videoElement === null) {
+                return
+            }
+
+            videoElement.style.display = "block"
+            await new Promise(r => setTimeout(r, 2000));
+            await showEveryFewSeconds[[${uniqueId}]](counter + 1)
+        }
+    </script>
+
+    <div th:each="vline, iter : ${lines}" th:id="'video-' + ${iter.index} + '-' + ${uniqueId}" style="display: none">
         <div th:replace="executed-command :: executed-command (line=${vline})">
 
         </div>
