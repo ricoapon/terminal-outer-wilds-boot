@@ -6,7 +6,7 @@
     <title>TerminalOuterWilds</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="../static/main.css" th:href="@{/main.css}" rel="stylesheet" />
+    <link href="../static/main.css" th:href="@{/main.css}" rel="stylesheet"/>
 
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet" type="text/css">
@@ -15,7 +15,7 @@
 </head>
 <body>
 <script>
-    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+    document.body.addEventListener('htmx:beforeRequest', function (evt) {
         const key = evt.detail.requestConfig.triggeringEvent.key
 
         // Prevent any request that is not pressing Enter.
@@ -24,7 +24,13 @@
         }
     });
 
-    document.body.addEventListener('htmx:afterRequest', function(evt) {
+    document.body.addEventListener('htmx:afterRequest', function (evt) {
+        const fullScreenHeader = evt.detail.xhr.getResponseHeader('Terminal-Full-Screen')
+        if (fullScreenHeader !== null && fullScreenHeader === "true") {
+            startFullScreen()
+            return
+        }
+
         // Clear the after the input box after we executed a command.
         const header = evt.detail.xhr.getResponseHeader('Terminal-Clear-Input')
         if (header !== null && header === "false") {
@@ -32,7 +38,30 @@
         }
 
         document.getElementById('command').value = '';
+        document.getElementById('command').focus()
+
+        const body = document.getElementById("body");
+        body.scrollTop = body.scrollHeight;
     });
+
+    function startFullScreen() {
+        console.log("Start full screen")
+        document.getElementById('full-screen').style.display = "block"
+        document.getElementById('terminal').style.display = "none"
+
+        document.onkeyup = function (e) {
+            if (e.key === "q") {
+                finishFullScreen()
+            }
+        };
+    }
+
+    function finishFullScreen() {
+        document.getElementById('full-screen').style.display = "none"
+        document.getElementById('terminal').style.display = "block"
+        document.onkeyup = null
+        document.getElementById('command').focus()
+    }
 </script>
 
 <div class="container">
@@ -48,10 +77,14 @@
         </section>
 
         <!-- Terminal Body -->
-        <section class="body">
-            <div id="executed-commands">
-                <div>
+        <section id="body" class="body">
+            <div id="full-screen" style="display: none">
+
+            </div>
+            <div id="terminal" style="display: block">
+                <div id="executed-commands">
                     <div>
+                        <div>
                         <span class="response">
    ____    _    _   _______   ______   _____     __          __  _____   _        _____     _____
   / __ \  | |  | | |__   __| |  ____| |  __ \    \ \        / / |_   _| | |      |  __ \   / ____|
@@ -63,18 +96,19 @@
 Welcome to this magical server. Take a look around and enjoy yourself with the puzzles.
 If this is your first time playing, type 'help' and press enter.
                         </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="console-input-container">
-                <span id="current-location-span" class="location">[tutorial] ></span>
-                <input id="current-location" name="location" type="hidden" value="tutorial">
-                <!--suppress HtmlFormInputWithoutLabel -->
-                <input id="command" name="command" type="text" class="console-input" autofocus
-                       hx-post="post-command" hx-include="#current-location"
-                       hx-trigger="keyup"
-                       hx-target="#executed-commands"
-                       hx-swap="beforeend"/>
+                <div id="console-input-container">
+                    <span id="current-location-span" class="location">[tutorial] ></span>
+                    <input id="current-location" name="location" type="hidden" value="tutorial">
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input id="command" name="command" type="text" class="console-input" autofocus
+                           hx-post="post-command" hx-include="#current-location"
+                           hx-trigger="keyup"
+                           hx-target="#executed-commands"
+                           hx-swap="beforeend"/>
+                </div>
             </div>
         </section>
     </div>

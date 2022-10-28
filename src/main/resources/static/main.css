@@ -129,3 +129,17 @@ body {
     font-family: 'Ubuntu Mono';
     font-size: 14px;
 }
+
+/*******************************
+ * full-screen
+ *******************************/
+
+#full-screen .text {
+    color: white;
+    white-space: pre-wrap;
+}
+
+#full-screen .footer {
+    background-color: white;
+    color: black;
+}

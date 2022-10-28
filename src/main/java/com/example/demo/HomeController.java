@@ -35,6 +35,11 @@ public class HomeController {
         line.response = "I have not implemented this command yet!";
         model.addAttribute("line", line);
         model.addAttribute("newLocation", newLocation);
+
+        if (command.startsWith("view")) {
+            response.addHeader("Terminal-Full-Screen", "true");
+            return "full-screen-video";
+        }
         return "executed-command";
     }
 }
