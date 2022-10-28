@@ -5,13 +5,64 @@
     <title>TerminalOuterWilds</title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:href="@{/main.css}" rel="stylesheet" />
+    <link href="../static/main.css" th:href="@{/main.css}" rel="stylesheet" />
 
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet" type="text/css">
 </head>
 <body>
-Hello world
-Current time is <span th:text="${serverTime}"></span>
+
+<div class="container">
+    <div class="terminal">
+
+        <section class="title-bar">
+            <div class="buttons">
+                <button class="button button-exit">&#10005;</button>
+                <button class="button">&#9472;</button>
+                <button class="button">&#9723;</button>
+            </div>
+            <p class="title">Outer Wilds</p>
+        </section>
+
+        <!-- Terminal Body -->
+        <section class="body">
+            <!--/*@thymesVar id="line" type="com.example.demo.frontend.Line"*/-->
+            <div id="executed-commands">
+                <div>
+                    <div th:if="${line.response != null}">
+                        <span class="response">
+   ____    _    _   _______   ______   _____     __          __  _____   _        _____     _____
+  / __ \  | |  | | |__   __| |  ____| |  __ \    \ \        / / |_   _| | |      |  __ \   / ____|
+ | |  | | | |  | |    | |    | |__    | |__) |    \ \  /\  / /    | |   | |      | |  | | | (___
+ | |  | | | |  | |    | |    |  __|   |  _  /      \ \/  \/ /     | |   | |      | |  | |  \___ \
+ | |__| | | |__| |    | |    | |____  | | \ \       \  /\  /     _| |_  | |____  | |__| |  ____) |
+  \____/   \____/     |_|    |______| |_|  \_\       \/  \/     |_____| |______| |_____/  |_____/
+
+Welcome to this magical server. Take a look around and enjoy yourself with the puzzles.
+If this is your first time playing, type 'help' and press enter.
+                        </span>
+                    </div>
+                </div>
+
+                <div>
+                    <div th:if="${line.location != null}">
+                        <span class="location" th:text="'[' + ${line.location} +'] >'">[directory] ></span>
+                        <span class="command" th:text="${line.command}">echo "Hello World"</span>
+                    </div>
+                    <div th:if="${line.response != null}">
+                        <span class="response" th:text="${line.response}">Hello World</span>
+                    </div>
+                </div>
+            </div>
+            <div id="console-input-container">
+                <span class="location">[directory] ></span>
+                <!--suppress HtmlFormInputWithoutLabel -->
+                <input type="text" class="console-input" autofocus />
+            </div>
+        </section>
+    </div>
+</div>
+
+
 </body>
 </html>

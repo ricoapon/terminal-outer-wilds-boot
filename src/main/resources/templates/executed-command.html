@@ -1,0 +1,10 @@
+<div>
+    <!--/*@thymesVar id="line" type="com.example.demo.frontend.Line"*/-->
+    <div th:if="${line.location != null}">
+        <span class="location" th:text="'[' + ${line.location} +'] >'">[directory] ></span>
+        <span class="command" th:text="${line.location}">echo "Hello World"</span>
+    </div>
+    <div th:if="${line.response != null}">
+        <span class="response" th:text="${line.response}">Hello World</span>
+    </div>
+</div>
