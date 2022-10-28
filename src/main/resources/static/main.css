@@ -98,22 +98,26 @@ body {
 }
 
 /*******************************
- * executed-commands and console-input-container
+ * Displaying lines
  *******************************/
 
-#executed-commands .location, #console-input-container .location {
+.line-location {
     color: #7eda28;
     padding-right: 0;
 }
 
-#executed-commands .command {
+.line-command {
     color: white;
 }
 
-#executed-commands .response {
+.line-response {
     color: white;
     white-space: pre-wrap;
 }
+
+/*******************************
+ * Input bar
+ *******************************/
 
 #console-input-container .console-input {
     background-color: transparent;

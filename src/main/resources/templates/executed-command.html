@@ -2,12 +2,12 @@
 <div th:fragment="line">
     <!--/*@thymesVar id="line" type="com.example.demo.frontend.Line"*/-->
     <div th:if="${line.location != null}">
-        <span class="location" th:text="'[' + ${line.location} +'] >'">[directory] ></span>
-        <span class="command" th:text="${line.command}">echo "Hello World"</span>
+        <span class="line-location" th:text="'[' + ${line.location} +'] >'">[directory] ></span>
+        <span class="line-command" th:text="${line.command}">echo "Hello World"</span>
     </div>
     <div th:if="${line.response != null}">
-        <span class="response" th:text="${line.response}">Hello World</span>
+        <span class="line-response" th:text="${line.response}">Hello World</span>
     </div>
 </div>
-<span hx-swap-oob="true" id="current-location-span" class="location" th:text="'[' + ${newLocation} +'] >'">[tutorial] ></span>
+<span hx-swap-oob="true" id="current-location-span" class="line-location" th:text="'[' + ${newLocation} +'] >'">[tutorial] ></span>
 <input hx-swap-oob="true" id="current-location" name="location" type="hidden" th:value="${newLocation}">
