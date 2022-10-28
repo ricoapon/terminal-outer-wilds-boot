@@ -37,15 +37,21 @@
             return
         }
 
-        document.getElementById('command').value = '';
-        document.getElementById('command').focus()
-
-        const body = document.getElementById("body");
-        body.scrollTop = body.scrollHeight;
+        clearCommandInput()
+        scrollToBottom()
     });
 
+    function clearCommandInput() {
+        document.getElementById('command').value = '';
+        document.getElementById('command').focus()
+    }
+
+    function scrollToBottom() {
+        const body = document.getElementById("body");
+        body.scrollTop = body.scrollHeight;
+    }
+
     function startFullScreen() {
-        console.log("Start full screen")
         document.getElementById('full-screen').style.display = "block"
         document.getElementById('terminal').style.display = "none"
 
@@ -60,7 +66,8 @@
         document.getElementById('full-screen').style.display = "none"
         document.getElementById('terminal').style.display = "block"
         document.onkeyup = null
-        document.getElementById('command').focus()
+        clearCommandInput()
+        scrollToBottom()
     }
 </script>
 

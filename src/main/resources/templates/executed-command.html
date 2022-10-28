@@ -1,5 +1,5 @@
 <!--suppress HtmlUnknownAttribute -->
-<div th:fragment="line">
+<div th:fragment="executed-command(line)">
     <!--/*@thymesVar id="line" type="com.example.demo.frontend.Line"*/-->
     <div th:if="${line.location != null}">
         <span class="line-location" th:text="'[' + ${line.location} +'] >'">[directory] ></span>
