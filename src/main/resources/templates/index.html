@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress HtmlUnknownAttribute -->
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -9,8 +10,30 @@
 
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet" type="text/css">
+
+    <script src="https://unpkg.com/htmx.org@1.8.2"></script>
 </head>
 <body>
+<script>
+    document.body.addEventListener('htmx:beforeRequest', function(evt) {
+        const key = evt.detail.requestConfig.triggeringEvent.key
+
+        // Prevent any request that is not pressing Enter.
+        if (key !== "Enter") {
+            evt.preventDefault()
+        }
+    });
+
+    document.body.addEventListener('htmx:afterRequest', function(evt) {
+        // Clear the after the input box after we executed a command.
+        const header = evt.detail.xhr.getResponseHeader('Terminal-Clear-Input')
+        if (header !== null && header === "false") {
+            return
+        }
+
+        document.getElementById('command').value = '';
+    });
+</script>
 
 <div class="container">
     <div class="terminal">
@@ -26,10 +49,9 @@
 
         <!-- Terminal Body -->
         <section class="body">
-            <!--/*@thymesVar id="line" type="com.example.demo.frontend.Line"*/-->
             <div id="executed-commands">
                 <div>
-                    <div th:if="${line.response != null}">
+                    <div>
                         <span class="response">
    ____    _    _   _______   ______   _____     __          __  _____   _        _____     _____
   / __ \  | |  | | |__   __| |  ____| |  __ \    \ \        / / |_   _| | |      |  __ \   / ____|
@@ -43,26 +65,19 @@ If this is your first time playing, type 'help' and press enter.
                         </span>
                     </div>
                 </div>
-
-                <div>
-                    <div th:if="${line.location != null}">
-                        <span class="location" th:text="'[' + ${line.location} +'] >'">[directory] ></span>
-                        <span class="command" th:text="${line.command}">echo "Hello World"</span>
-                    </div>
-                    <div th:if="${line.response != null}">
-                        <span class="response" th:text="${line.response}">Hello World</span>
-                    </div>
-                </div>
             </div>
             <div id="console-input-container">
-                <span class="location">[directory] ></span>
+                <span class="location">[tutorial] ></span>
                 <!--suppress HtmlFormInputWithoutLabel -->
-                <input type="text" class="console-input" autofocus />
+                <input id="command" name="command" type="text" class="console-input" autofocus
+                       hx-post="post-command"
+                       hx-trigger="keyup"
+                       hx-target="#executed-commands"
+                       hx-swap="beforeend"/>
             </div>
         </section>
     </div>
 </div>
-
 
 </body>
 </html>
