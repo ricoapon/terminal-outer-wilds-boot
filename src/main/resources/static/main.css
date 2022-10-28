@@ -98,12 +98,12 @@ body {
 }
 
 /*******************************
- * executed-commands
+ * executed-commands and console-input-container
  *******************************/
 
-#executed-commands .location {
+#executed-commands .location, #console-input-container .location {
     color: #7eda28;
-    padding-right: 8px;
+    padding-right: 0;
 }
 
 #executed-commands .command {
@@ -113,15 +113,6 @@ body {
 #executed-commands .response {
     color: white;
     white-space: pre-wrap;
-}
-
-/*******************************
- * console-input-container
- *******************************/
-
-#console-input-container .location {
-    color: #7eda28;
-    padding-right: 8px;
 }
 
 #console-input-container .console-input {
