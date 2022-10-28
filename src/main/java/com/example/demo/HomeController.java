@@ -16,17 +16,25 @@ public class HomeController {
     }
 
     @RequestMapping("/post-command")
-    public String postCommand(HttpServletResponse response, Model model, @RequestParam("command") String command) {
+    public String postCommand(HttpServletResponse response, Model model,
+                              @RequestParam("command") String command,
+                              @RequestParam("location") String location) {
         // Set header for fun.
         if (command.equals("donotclear")) {
             response.addHeader("Terminal-Clear-Input", "false");
         }
 
+        String newLocation = location;
+        if (command.startsWith("cd ")) {
+            newLocation = command.substring(3);
+        }
+
         Line line = new Line();
         line.command = command;
-        line.location = "tutorial";
+        line.location = location;
         line.response = "I have not implemented this command yet!";
         model.addAttribute("line", line);
+        model.addAttribute("newLocation", newLocation);
         return "executed-command";
     }
 }

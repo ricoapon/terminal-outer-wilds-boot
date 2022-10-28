@@ -67,10 +67,11 @@ If this is your first time playing, type 'help' and press enter.
                 </div>
             </div>
             <div id="console-input-container">
-                <span class="location">[tutorial] ></span>
+                <span id="current-location-span" class="location">[tutorial] ></span>
+                <input id="current-location" name="location" type="hidden" value="tutorial">
                 <!--suppress HtmlFormInputWithoutLabel -->
                 <input id="command" name="command" type="text" class="console-input" autofocus
-                       hx-post="post-command"
+                       hx-post="post-command" hx-include="#current-location"
                        hx-trigger="keyup"
                        hx-target="#executed-commands"
                        hx-swap="beforeend"/>
