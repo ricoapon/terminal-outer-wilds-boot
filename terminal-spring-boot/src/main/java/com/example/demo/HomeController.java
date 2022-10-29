@@ -37,7 +37,7 @@ public class HomeController {
         }
 
         // Process command
-        TerminalEvent terminalEvent = terminalFacade.processCommand(command, location);
+        TerminalEvent terminalEvent = terminalFacade.processCommand(command);
         return switch (terminalEvent) {
             case CommandResponseEvent event -> {
                 Line line = new Line();

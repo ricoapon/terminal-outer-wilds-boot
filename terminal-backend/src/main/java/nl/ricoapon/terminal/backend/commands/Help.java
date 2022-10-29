@@ -1,6 +1,7 @@
 package nl.ricoapon.terminal.backend.commands;
 
 import nl.ricoapon.terminal.backend.ResourceReader;
+import nl.ricoapon.terminal.backend.TerminalState;
 import nl.ricoapon.terminal.backend.events.FullScreenTextEvent;
 import nl.ricoapon.terminal.backend.events.TerminalEvent;
 
@@ -17,7 +18,7 @@ public class Help implements Command {
     }
 
     @Override
-    public TerminalEvent process(ParsedCommand parsedCommand, String location) {
+    public TerminalEvent process(ParsedCommand parsedCommand, TerminalState terminalState) {
         return new FullScreenTextEvent(helpFullText);
     }
 }

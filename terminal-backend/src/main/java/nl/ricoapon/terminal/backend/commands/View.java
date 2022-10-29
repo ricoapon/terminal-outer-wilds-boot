@@ -1,5 +1,6 @@
 package nl.ricoapon.terminal.backend.commands;
 
+import nl.ricoapon.terminal.backend.TerminalState;
 import nl.ricoapon.terminal.backend.events.FullScreenVideoEvent;
 import nl.ricoapon.terminal.backend.events.TerminalEvent;
 
@@ -12,7 +13,7 @@ public class View implements Command {
     }
 
     @Override
-    public TerminalEvent process(ParsedCommand parsedCommand, String location) {
+    public TerminalEvent process(ParsedCommand parsedCommand, TerminalState terminalState) {
         FullScreenVideoEvent.VideoLine line1 = new FullScreenVideoEvent.VideoLine();
         line1.location = "/";
         line1.command = "cd tutorial";
