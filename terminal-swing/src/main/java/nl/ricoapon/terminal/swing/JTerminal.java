@@ -3,82 +3,26 @@ package nl.ricoapon.terminal.swing;
 import nl.ricoapon.terminal.backend.TerminalFacade;
 
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.IOException;
 
 public class JTerminal extends JFrame {
 
-    private JTextPane area = new JTextPane();
-    private JTextField input = new JTextField("Input");
+    public static void main(String[] args) {
+        new JTerminal();
+    }
 
-    private SimpleAttributeSet inputSAS = new SimpleAttributeSet(), output = new SimpleAttributeSet(), error = new SimpleAttributeSet();
+    private final JOutput jOutput = new JOutput();
 
-    public JTerminal() throws IOException {
+    public JTerminal() {
         super("JTerminal");
 
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-        StyleConstants.setForeground(inputSAS, Color.GREEN);
-        StyleConstants.setBackground(inputSAS, Color.BLACK);
+        JTextField input = new JInput(this::processCommand);
 
-        StyleConstants.setForeground(output, Color.WHITE);
-        StyleConstants.setBackground(output, Color.BLACK);
-
-        StyleConstants.setForeground(error, Color.RED);
-        StyleConstants.setBackground(error, Color.BLACK);
-
-        input.addKeyListener(new KeyListener() {
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    try {
-                        String command = input.getText();
-                        if (command.equals("")) return;
-
-                        setTitle("JTerminal (" + command.split(" ")[0] + ")");
-
-                        input.setText("");
-                        input.setEditable(false);
-
-                        write(inputSAS, command);
-
-                        // Process command
-                        String response = new TerminalFacade().processCommand(command);
-                        writeResponse(response, output);
-
-                        input.setEditable(true);
-                        setTitle("JTerminal");
-
-                    } catch (Exception ex) { error(ex); }
-                }
-            }
-
-            public void keyTyped(KeyEvent e) {}
-            public void keyReleased(KeyEvent e) {}
-        });
-
-        area.setBackground(Color.black);
-        area.setCaretColor(Color.green);
-        area.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
-        area.setEditable(false);
-
-        JScrollPane pane = new JScrollPane(area);
-        pane.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-        pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        pane.setPreferredSize(new Dimension(640, 460));
-
-        input.setBackground(Color.black);
-        input.setForeground(Color.green);
-        input.setCaretColor(Color.green);
-        input.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
-        input.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-
-        add(pane);
+        add(jOutput);
         add(input);
+
 
         Dimension DIM = new Dimension(640, 480);
         setPreferredSize(DIM);
@@ -89,33 +33,19 @@ public class JTerminal extends JFrame {
         pack();
         setVisible(true);
 
+        // Only works when we put this all the way to the end.
         input.requestFocus();
     }
 
-    public static void main(String[] args) throws IOException {
-        new JTerminal();
+    private void processCommand(String command) {
+        print(command, TextStyle.COMMAND);
+
+        String response = new TerminalFacade().processCommand(command);
+
+        print(response, TextStyle.RESPONSE);
     }
 
-    private void write(SimpleAttributeSet attributeSet, String... lines) {
-        try {
-            area.getStyledDocument().insertString(area.getStyledDocument().getLength(), "\n", attributeSet);
-            for (String line : lines) {
-                area.getStyledDocument().insertString(area.getStyledDocument().getLength(), line + "\n", attributeSet);
-            }
-        }
-        catch (Exception e) { error(e); }
-    }
-
-    private void error(Exception e) {
-        write(error, "An error has occured: " + e.getLocalizedMessage());
-        e.printStackTrace(); //TODO: temp.
-    }
-
-    private void writeResponse(String strs, SimpleAttributeSet color) {
-        try {
-
-                write(color, strs);
-        }
-        catch (Exception e) { error(e); }
+    private void print(String text, TextStyle textStyle) {
+        jOutput.print(text, textStyle);
     }
 }
