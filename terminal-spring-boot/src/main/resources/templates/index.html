@@ -16,6 +16,7 @@
 <body>
 
 <script src="../static/clipboard.js" th:src="@{/clipboard.js}"></script>
+<script src="../static/htmx-triggers.js" th:src="@{/htmx-triggers.js}"></script>
 
 <script>
     document.body.addEventListener('htmx:beforeRequest', function (evt) {
@@ -27,19 +28,8 @@
         }
     });
 
-    document.body.addEventListener('htmx:afterRequest', function (evt) {
-        const fullScreenHeader = evt.detail.xhr.getResponseHeader('Terminal-Full-Screen')
-        if (fullScreenHeader !== null && fullScreenHeader === "true") {
-            startFullScreen()
-            return
-        }
-
+    document.body.addEventListener('htmx:afterRequest', function () {
         // Clear the after the input box after we executed a command.
-        const header = evt.detail.xhr.getResponseHeader('Terminal-Clear-Input')
-        if (header !== null && header === "false") {
-            return
-        }
-
         clearCommandInput()
         scrollToBottom()
     });

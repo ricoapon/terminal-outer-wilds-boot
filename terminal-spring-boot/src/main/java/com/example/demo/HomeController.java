@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -31,10 +34,7 @@ public class HomeController {
     public String postCommand(HttpServletResponse response, Model model,
                               @RequestParam("command") String command,
                               @RequestParam("location") String location) {
-        // Set header for fun.
-        if (command.equals("donotclear")) {
-            response.addHeader("Terminal-Clear-Input", "false");
-        }
+        List<String> hxTriggerNames = new ArrayList<>();
 
         // Process command
         TerminalEvent terminalEvent = terminalFacade.processCommand(command);
@@ -53,7 +53,7 @@ public class HomeController {
                 yield "executed-command";
             }
             case FullScreenVideoEvent event -> {
-                response.addHeader("Terminal-Full-Screen", "true");
+                hxTriggerNames.add("startFullScreen");
 
                 // Create a line without a response to indicate the command was run.
                 Line line = new Line();
@@ -63,11 +63,12 @@ public class HomeController {
 
                 model.addAttribute("lines", Line.from(event.videoLines()));
                 model.addAttribute("uniqueId", new Date().getTime());
+                addHxTriggerHeaders(response, hxTriggerNames);
 
                 yield "full-screen-video";
             }
             case FullScreenTextEvent event -> {
-                response.addHeader("Terminal-Full-Screen", "true");
+                hxTriggerNames.add("startFullScreen");
 
                 // Create a line without a response to indicate the command was run.
                 Line line = new Line();
@@ -76,9 +77,26 @@ public class HomeController {
                 model.addAttribute("line", line);
 
                 model.addAttribute("fullText", event.text());
+                addHxTriggerHeaders(response, hxTriggerNames);
 
                 yield "full-screen-text";
             }
         };
+    }
+
+    private void addHxTriggerHeaders(HttpServletResponse response, List<String> headers) {
+        if (headers.size() == 0) {
+            return;
+        }
+
+        if (headers.size() == 1) {
+            response.addHeader("HX-Trigger-After-Swap", headers.get(0));
+            return;
+        }
+
+        String fullHeader = "{" +
+                headers.stream().map(header -> "\"" + header + "\": \"\"").collect(Collectors.joining(",")) +
+                "}";
+        response.addHeader("HX-Trigger-After-Swap", fullHeader);
     }
 }
