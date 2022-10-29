@@ -16,6 +16,12 @@ import java.util.Date;
 
 @Controller
 public class HomeController {
+    private final TerminalFacade terminalFacade;
+
+    public HomeController(TerminalFacade terminalFacade) {
+        this.terminalFacade = terminalFacade;
+    }
+
     @RequestMapping("/")
     public String home() {
         return "index";
@@ -31,7 +37,7 @@ public class HomeController {
         }
 
         // Process command
-        TerminalEvent terminalEvent = new TerminalFacade().processCommand(command);
+        TerminalEvent terminalEvent = terminalFacade.processCommand(command, location);
         return switch (terminalEvent) {
             case CommandResponseEvent event -> {
                 Line line = new Line();
@@ -60,8 +66,19 @@ public class HomeController {
 
                 yield "full-screen-video";
             }
-            case FullScreenTextEvent event -> // TODO
-                    "";
+            case FullScreenTextEvent event -> {
+                response.addHeader("Terminal-Full-Screen", "true");
+
+                // Create a line without a response to indicate the command was run.
+                Line line = new Line();
+                line.command = command;
+                line.location = location;
+                model.addAttribute("line", line);
+
+                model.addAttribute("fullText", event.getText());
+
+                yield "full-screen-text";
+            }
         };
     }
 }

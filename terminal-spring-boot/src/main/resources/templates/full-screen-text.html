@@ -1,0 +1,13 @@
+<div th:replace="executed-command :: executed-command (line=${line})">
+
+</div>
+
+<div id="full-screen" hx-swap-oob="true" onkeyup="finishFullScreen(event)">
+    <div>
+        <span class="line-response" th:text="${fullText}"></span>
+    </div>
+
+    <span class="footer">
+        Press Q to quit
+    </span>
+</div>
