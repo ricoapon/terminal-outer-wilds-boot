@@ -3,7 +3,6 @@ package com.example.demo.frontend;
 import nl.ricoapon.terminal.backend.events.FullScreenVideoEvent;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Line {
     public String location;
@@ -21,6 +20,6 @@ public class Line {
     public static List<Line> from(List<FullScreenVideoEvent.VideoLine> videoLines) {
         return videoLines.stream()
                 .map(Line::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

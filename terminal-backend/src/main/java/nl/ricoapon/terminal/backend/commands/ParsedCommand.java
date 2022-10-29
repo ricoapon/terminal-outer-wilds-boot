@@ -2,7 +2,6 @@ package nl.ricoapon.terminal.backend.commands;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ParsedCommand {
     private final String command;
@@ -19,7 +18,7 @@ public class ParsedCommand {
         List<String> args = Arrays.stream(commandWithArgs)
                 // Remove the first element, which is the command.
                 .skip(1)
-                .collect(Collectors.toList());
+                .toList();
 
         return new ParsedCommand(command, args);
     }
