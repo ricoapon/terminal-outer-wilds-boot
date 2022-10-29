@@ -9,5 +9,8 @@
         <span class="line-response" th:text="${line.response}">Hello World</span>
     </div>
 </div>
-<span hx-swap-oob="true" id="current-location-span" class="line-location" th:text="'[' + ${newLocation} +'] >'">[tutorial] ></span>
-<input hx-swap-oob="true" id="current-location" name="location" type="hidden" th:value="${newLocation}">
+<!-- Only override values with htmx if we actually have a new value. -->
+<div th:if="${newLocation != null}">
+    <span hx-swap-oob="true" id="current-location-span" class="line-location" th:text="'[' + ${newLocation} +'] >'">[tutorial] ></span>
+    <input hx-swap-oob="true" id="current-location" name="location" type="hidden" th:value="${newLocation}">
+</div>

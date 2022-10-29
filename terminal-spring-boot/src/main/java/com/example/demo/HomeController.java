@@ -2,6 +2,10 @@ package com.example.demo;
 
 import com.example.demo.frontend.Line;
 import nl.ricoapon.terminal.backend.TerminalFacade;
+import nl.ricoapon.terminal.backend.events.CommandResponseEvent;
+import nl.ricoapon.terminal.backend.events.FullScreenTextEvent;
+import nl.ricoapon.terminal.backend.events.FullScreenVideoEvent;
+import nl.ricoapon.terminal.backend.events.TerminalEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.List;
 
 @Controller
 public class HomeController {
@@ -27,35 +30,38 @@ public class HomeController {
             response.addHeader("Terminal-Clear-Input", "false");
         }
 
-        String newLocation = location;
-        if (command.startsWith("cd ")) {
-            newLocation = command.substring(3);
-        }
+        // Process command
+        TerminalEvent terminalEvent = new TerminalFacade().processCommand(command);
+        return switch (terminalEvent) {
+            case CommandResponseEvent event -> {
+                Line line = new Line();
+                line.command = command;
+                line.location = location;
+                line.response = event.getResponse();
+                model.addAttribute("line", line);
 
-        Line line = new Line();
-        line.command = command;
-        line.location = location;
-        line.response = new TerminalFacade().processCommand(command);
-        model.addAttribute("line", line);
-        model.addAttribute("newLocation", newLocation);
+                if (event.getNewLocation() != null) {
+                    model.addAttribute("newLocation", event.getNewLocation());
+                }
 
-        if (command.startsWith("view")) {
-            response.addHeader("Terminal-Full-Screen", "true");
+                yield "executed-command";
+            }
+            case FullScreenVideoEvent event -> {
+                response.addHeader("Terminal-Full-Screen", "true");
 
-            // Create lines for a single video.
-            Line line1 = new Line();
-            line1.location = "/";
-            line1.command = "cd tutorial";
-            Line line2 = new Line();
-            line2.location = "tutorial";
-            line2.command = "execute npc.sh";
-            Line line3 = new Line();
-            line3.response = "I am an npc";
-            model.addAttribute("lines", List.of(line1, line2, line3));
-            model.addAttribute("uniqueId", new Date().getTime());
+                // Create a line without a response to indicate the command was run.
+                Line line = new Line();
+                line.command = command;
+                line.location = location;
+                model.addAttribute("line", line);
 
-            return "full-screen-video";
-        }
-        return "executed-command";
+                model.addAttribute("lines", Line.from(event.getVideoLines()));
+                model.addAttribute("uniqueId", new Date().getTime());
+
+                yield "full-screen-video";
+            }
+            case FullScreenTextEvent event -> // TODO
+                    "";
+        };
     }
 }

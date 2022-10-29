@@ -1,6 +1,8 @@
 package nl.ricoapon.terminal.swing;
 
 import nl.ricoapon.terminal.backend.TerminalFacade;
+import nl.ricoapon.terminal.backend.events.CommandResponseEvent;
+import nl.ricoapon.terminal.backend.events.TerminalEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,9 +42,11 @@ public class JTerminal extends JFrame {
     private void processCommand(String command) {
         print(command, TextStyle.COMMAND);
 
-        String response = new TerminalFacade().processCommand(command);
-
-        print(response, TextStyle.RESPONSE);
+        TerminalEvent terminalEvent = new TerminalFacade().processCommand(command);
+        if (terminalEvent instanceof CommandResponseEvent event) {
+            print(event.getResponse(), TextStyle.RESPONSE);
+        }
+        // TODO: implement other events.
     }
 
     private void print(String text, TextStyle textStyle) {
