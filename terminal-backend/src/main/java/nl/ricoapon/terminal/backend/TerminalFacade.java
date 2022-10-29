@@ -20,7 +20,7 @@ public class TerminalFacade {
     public TerminalEvent processCommand(String command, String location) {
         ParsedCommand parsedCommand = ParsedCommand.of(command);
         if (!allCommands.containsKey(parsedCommand.getCommand())) {
-            return new CommandResponseEvent("Command '" + parsedCommand.getCommand() + "' not recognized", null);
+            return new CommandResponseEvent("Command '" + parsedCommand.getCommand() + "' not recognized");
         }
 
         return allCommands.get(parsedCommand.getCommand()).process(parsedCommand, location);

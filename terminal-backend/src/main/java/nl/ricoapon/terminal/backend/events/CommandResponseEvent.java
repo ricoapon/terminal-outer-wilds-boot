@@ -6,6 +6,10 @@ public final class CommandResponseEvent implements TerminalEvent {
     /** The new directory the user is in. */
     private final String newLocation;
 
+    public CommandResponseEvent(String response) {
+        this(response, null);
+    }
+
     public CommandResponseEvent(String response, String newLocation) {
         this.response = response;
         this.newLocation = newLocation;
