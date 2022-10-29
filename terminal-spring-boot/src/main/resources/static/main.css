@@ -103,7 +103,7 @@ body {
 
 .line-location {
     color: #7eda28;
-    padding-right: 0;
+    padding-right: 8px;
 }
 
 .line-command {
@@ -119,7 +119,12 @@ body {
  * Input bar
  *******************************/
 
+#console-input-container {
+    display: flex;
+}
+
 #console-input-container .console-input {
+    flex-grow: 1;
     background-color: transparent;
     border: none;
     outline: none;
