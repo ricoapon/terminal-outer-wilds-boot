@@ -43,11 +43,11 @@ public class HomeController {
                 Line line = new Line();
                 line.command = command;
                 line.location = location;
-                line.response = event.getResponse();
+                line.response = event.response();
                 model.addAttribute("line", line);
 
-                if (event.getNewLocation() != null) {
-                    model.addAttribute("newLocation", event.getNewLocation());
+                if (event.newLocation() != null) {
+                    model.addAttribute("newLocation", event.newLocation());
                 }
 
                 yield "executed-command";
@@ -61,7 +61,7 @@ public class HomeController {
                 line.location = location;
                 model.addAttribute("line", line);
 
-                model.addAttribute("lines", Line.from(event.getVideoLines()));
+                model.addAttribute("lines", Line.from(event.videoLines()));
                 model.addAttribute("uniqueId", new Date().getTime());
 
                 yield "full-screen-video";
@@ -75,7 +75,7 @@ public class HomeController {
                 line.location = location;
                 model.addAttribute("line", line);
 
-                model.addAttribute("fullText", event.getText());
+                model.addAttribute("fullText", event.text());
 
                 yield "full-screen-text";
             }
