@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.frontend.Line;
+import nl.ricoapon.terminal.backend.TerminalFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class HomeController {
         Line line = new Line();
         line.command = command;
         line.location = location;
-        line.response = "I have not implemented this command yet!";
+        line.response = new TerminalFacade().processCommand(command);
         model.addAttribute("line", line);
         model.addAttribute("newLocation", newLocation);
 
