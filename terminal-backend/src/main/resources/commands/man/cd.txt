@@ -1,0 +1,22 @@
+NAME
+    cd - Changes the current directory.
+
+SYNOPSIS
+    cd PATH
+
+DESCRIPTION
+    You are browsing through a file system. Using commands like `ls` you can see files inside your current directory.
+    This command can be used to change to another directory.
+
+    You don't need to change your directory step by step, you can give a full path to directly go to another directory.
+
+OPTIONS
+    PATH can be either absolute (starting with "/") or relative (not starting with "/").
+    The command supports using '..' to refer to the parent directory.
+
+EXAMPLES
+    `cd step-2` can be used to move into the step-2 directory. You must currently be in the tutorial directory for this
+    to work though.
+    `cd /tutorial/step-2` can be used to directly go to the step-2 directory. It doesn't matter where you are.
+    `cd ..` go back one directory.
+    `cd ../..` go back two directories.

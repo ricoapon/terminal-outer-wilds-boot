@@ -1,0 +1,8 @@
+NAME
+    help - Shows the help instruction of this game.
+
+SYNOPSIS
+    help
+
+DESCRIPTION
+    If you have no clue where to start, use the help command. It will guide you through the tutorial of the game.

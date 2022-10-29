@@ -15,7 +15,8 @@ public interface Command {
         return List.of(
                 new Help(),
                 new ChangeDirectory(),
-                new View()
+                new View(),
+                new Manual()
         );
     }
 }

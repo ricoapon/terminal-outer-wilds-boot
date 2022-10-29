@@ -1,0 +1,23 @@
+NAME
+    man - Shows the manual page of commands.
+
+SYNOPSIS
+    man COMMAND
+
+DESCRIPTION
+    Commands in this game can have more depth than you might first imagine. Using this command, you can show manuals
+    (like this page) for each command that exists in the game.
+
+    All the pages are structured in an identical way:
+    - Name contains a single-line description of the command.
+    - Synopsis shows how the command can be used.
+    - Description gives more detailed information about the command.
+    - Options gives more information about the flags that can be used for the commands.
+    - Examples shows practical examples.
+
+OPTIONS
+    The COMMAND must be a valid existing command.
+
+EXAMPLES
+    `man cd` shows the manual page of the `cd` command.
+    `man man` shows you this page.

@@ -1,0 +1,11 @@
+NAME
+    ls - Lists all the files and directories inside the current directory.
+
+SYNOPSIS
+    ls
+
+DESCRIPTION
+    Using the `cd` command you can change your current directory. Using the `ls` command, you can see what files and
+    directories are located inside your current directory.
+
+    The output is sorted: directories are always first, then files. After that, it is sorted alphabetically.

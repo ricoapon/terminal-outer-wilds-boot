@@ -1,0 +1,12 @@
+NAME
+    move - Move files and programs to other directories.
+
+SYNOPSIS
+    move <path-to-file-or-program> <path-to-new-parent-directory>
+
+DESCRIPTION
+    The move command makes it possible to move files and programs around. It is not possible to rename files or programs
+    with this command.
+
+OPTIONS
+    move /tutorial/step-1.txt /tutorial/step-2

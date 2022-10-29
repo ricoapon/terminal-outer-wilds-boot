@@ -1,0 +1,18 @@
+NAME
+    pwd - Shows the current directory you are in.
+
+SYNOPSIS
+    pwd [-P]
+
+DESCRIPTION
+    You are browsing through a file system. Each file has a unique path, which is denoted in a specific way. An example
+    is `/some/path/to/file.txt`. Looking at this path, you can see that from the directory "some" you can go into the
+    directory "path" and after that into "to". The "to" directory contains the file "file.txt".  Paths can also refer to
+    a directory like this: "/path/to/directory".
+
+    This pwd command shows your current location.
+
+    Paths never end in a slash (if you do, the program will ignore the slash).
+
+OPTIONS
+    -P ignores symbolic links.
