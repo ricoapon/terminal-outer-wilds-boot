@@ -1,2 +1,2 @@
 rootProject.name = "demo"
-include("terminal-backend", "terminal-spring-boot", "terminal-swing")
+include("terminal-backend", "terminal-spring-boot", "terminal-swing", "terminal-electron")

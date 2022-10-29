@@ -1,0 +1,15 @@
+{
+  "name": "demo-app",
+  "version": "0.1.0",
+  "main": "main.js",
+  "description": "My beautiful app",
+  "author": "Rico Apon",
+  "devDependencies": {
+    "electron": "^21.2.0",
+    "electron-builder": "^23.6.0"
+  },
+  "dependencies": {
+    "minimal-request-promise": "^1.5.0",
+    "tree-kill": "^1.2.2"
+  }
+}
