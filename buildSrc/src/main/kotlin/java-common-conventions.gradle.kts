@@ -6,7 +6,7 @@ repositories {
     mavenCentral()
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_18
 
 // Enable preview for using pattern matching with switch.
 tasks.withType<JavaCompile> {
