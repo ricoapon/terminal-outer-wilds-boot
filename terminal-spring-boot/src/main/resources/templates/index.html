@@ -14,6 +14,9 @@
     <script src="https://unpkg.com/htmx.org@1.8.2"></script>
 </head>
 <body>
+
+<script src="../static/clipboard.js" th:src="@{/clipboard.js}"></script>
+
 <script>
     document.body.addEventListener('htmx:beforeRequest', function (evt) {
         const key = evt.detail.requestConfig.triggeringEvent.key
