@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public abstract class FileSystemPath {
+public sealed abstract class FileSystemPath {
     final static String ROOT = "/";
     final List<String> traversedDirectories;
 
@@ -17,6 +17,10 @@ public abstract class FileSystemPath {
             throw new RuntimeException("Given path is not absolute: " + pathAsString);
         }
 
+        if (ROOT.equals(pathAsString)) {
+            return new Absolute(List.of());
+        }
+
         return new Absolute(Arrays.stream(pathAsString.substring(1).split("/")).toList());
     }
 
@@ -25,7 +29,7 @@ public abstract class FileSystemPath {
             throw new RuntimeException("Given path is not relative: " + pathAsString);
         }
 
-        return new Relative(Arrays.stream(pathAsString.substring(1).split("/")).toList());
+        return new Relative(Arrays.stream(pathAsString.split("/")).toList());
     }
 
     public static FileSystemPath of(String pathAsString) {
@@ -44,7 +48,7 @@ public abstract class FileSystemPath {
         return traversedDirectories;
     }
 
-    public static class Absolute extends FileSystemPath {
+    public static final class Absolute extends FileSystemPath {
         public Absolute(List<String> traversedDirectories) {
             super(traversedDirectories);
         }
@@ -54,7 +58,7 @@ public abstract class FileSystemPath {
         }
     }
 
-    public static class Relative extends FileSystemPath {
+    public static final class Relative extends FileSystemPath {
         public Relative(List<String> traversedDirectories) {
             super(traversedDirectories);
         }

@@ -18,7 +18,8 @@ public interface Command {
                 new Help(),
                 new ChangeDirectory(inMemoryFileSystem),
                 new View(),
-                new Manual()
+                new Manual(),
+                new ListDirectories(inMemoryFileSystem)
         );
     }
 }
